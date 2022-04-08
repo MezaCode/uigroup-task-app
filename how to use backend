@@ -1,0 +1,217 @@
+web address
+    https://uigroupprojectbackend.herokuapp.com
+
+    the web address is the primary weblink to access the backend. you'll need to add a path to the end in order to access the various 
+    data for use in the frontend
+
+the following are the path and their http requests and their use case with expect json format to be used in the header for the request
+
+
+/user
+    get
+        the get request will be used to log a user in
+        expected json header
+            {"userName":"TestUser", "password":"TestPassword"}
+
+        expected return
+            200 Ok (http code)
+            {
+               "id": 5,
+               "userName": "TestUser",
+               "email": "test@test.test"
+            }
+    
+    post
+        used to create a new user
+        expected json header
+            {"userName":"TestUser", "password":"TestPassword", "email":"test@test.test"}
+
+        expected return
+            201 created (http code)
+            {
+               "id": 5,
+               "userName": "TestUser",
+               "email": "test@test.test"
+            }
+
+    delete
+        to delete user (we don't need to implement this on the front end at the moment)
+        
+        expected json header
+            {"userName":"TestUser", "password":"TestPassword"}
+
+        expected return
+            200 OK (HTTP code)
+            {
+                "id": 5,
+                "userName": "TestUser",
+                "email": "test@test.test"
+            }
+
+            
+/tasklist
+    get
+        to get tasklist for specific user for specific date
+        
+        expected json header
+            {"userId":5, "date":"04-06-2022"}
+
+        expected return
+            200 ok (HHTP code)
+            {
+                "id": 3,
+                "user": 5,
+                "date": "Wed, 06 Apr 2022 00:00:00 -0000",
+                "note": "note header must be included but value can have an empty string"
+            }
+    post
+        used to create a new task list for specific date
+        
+        expected json header
+           {"userId":5, "date":"04-06-2022", "note":"note header must be included but value can have an empty string"}
+
+        expected return
+            201 created (HTTP code)
+            {
+                "id": 3,
+                "user": 5,
+                "date": "Wed, 06 Apr 2022 00:00:00 -0000",
+                "note": "note header must be included but value can have an empty string"
+            }
+    delete
+        to delete a specific task list (atm you'll want to grab all the tasks for the desired task list, then grabbed their ids and
+         delete them before deleting the task list object)
+
+        expected json header
+            {"userId":5, "date":"04-06-2022"}
+
+        expected return
+            200 OK (HTTP code)
+            {
+                "id": 3,
+                "user": 5,
+                "date": "Wed, 06 Apr 2022 00:00:00 -0000",
+                "note": "note header must be included but value can have an empty string"
+            }
+
+
+/task
+
+    get
+        used to grab all tasks associated with a given task list ( suggested use is to grab tasklist then use task list id to grab 
+        all tasks then populated the screen with information for tasklist and individual tasks
+
+        expected json header
+            {"tasklistId":3}
+
+        expected return
+            200 ok (HTTP code)
+[
+    {
+        "id": 6,
+        "title": "some title",
+        "description": "some description",
+        "complete": false,
+        "priority": false,
+        "date": "2022-04-07 05:32:39.170399"
+    },
+    {
+        "id": 7,
+        "title": "some title 2",
+        "description": "some description",
+        "complete": false,
+        "priority": false,
+        "date": "2022-04-07 05:32:45.870068"
+    },
+    {
+        "id": 8,
+        "title": "some title 3",
+        "description": "some description",
+        "complete": false,
+        "priority": false,
+        "date": "2022-04-07 05:32:49.840300"
+    },
+    {
+        "id": 9,
+        "title": "some title 4",
+        "description": "some description",
+        "complete": false,
+        "priority": false,
+        "date": "2022-04-07 05:32:55.499725"
+    }
+]
+
+
+
+    post
+        use to add new task to an existing task list
+        
+        expected json header
+            {"title":"some title", "description":"some description", "priority": false, "tasklistId":3}
+        
+        expected return 
+            201 created (HTTP code)
+            {
+              "id": 6,
+              "title": "some title",
+              "description": "some description",
+              "complete": false,
+              "priority": false,
+              "date": "2022-04-07 05:32:39.170399"
+            }
+
+    patch
+        to be used to update info for a given task and also to mark as completed
+        
+        expected json header
+            {"taskId":6,"title":"changing title ", "description":"some description", "priority": false, "tasklistId":3,
+             "complete":true, "date": "04-07-2022"}
+
+        expected return
+            200 OK (HTTP code)
+            {
+                "id": 6,
+                "title": "changing title ",
+                "description": "some description",
+                "complete": true,
+                "priority": false,
+                "date": "2022-04-07 00:00:00"
+            }
+    delete
+        to delete a specific task
+
+        expected json header
+            {"taskId":6}
+
+        expected return
+            200 OK (HTTP code)
+            {
+                "id": 6,
+                "title": "changing title ",
+                "description": "some description",
+                "complete": true,
+                "priority": false,
+                "date": "2022-04-07 00:00:00"
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
